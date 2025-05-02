@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Clipper Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Clip Your Video for TikTok, Reels, or Shorts</h1>
+        <form action="/process" method="POST" enctype="multipart/form-data">
+            <label>Upload Video:</label>
+            <input type="file" name="video_file"><br>
+            
+            <label>Or Paste Video URL:</label>
+            <input type="text" name="video_url" placeholder="https://..."><br>
+
+            <label>Select Platform:</label>
+            <select name="platform">
+                <option value="tiktok">TikTok (max 60s)</option>
+                <option value="youtube">YouTube Shorts (max 60s)</option>
+                <option value="instagram">Instagram Reels (max 90s)</option>
+            </select><br>
+
+            <button type="submit">Clip Video</button>
+        </form>
+
+        {% if clips %}
+        <h2>Preview Clips:</h2>
+        <div class="clips">
+            {% for clip in clips %}
+                <video src="{{ url_for('static', filename='clips/' ~ clip) }}" controls></video>
+            {% endfor %}
+        </div>
+        <a href="/download_all" class="download-btn">Download All Clips</a>
+        {% endif %}
+    </div>
+</body>
+</html>
